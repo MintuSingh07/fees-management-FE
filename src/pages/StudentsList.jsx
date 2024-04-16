@@ -13,7 +13,7 @@ const StudentsList = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/std-list', {
+                const response = await axios.get('https://fees-management-fe.vercel.app/std-list', {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('admToken')}`
                     }
@@ -31,7 +31,7 @@ const StudentsList = () => {
 
     const handleCheckboxChange = async (uuid, isPaid) => {
         try {
-            const response = await axios.put(`http://localhost:8000/update-payment/${uuid}`, { isPaid: !isPaid }, {
+            const response = await axios.put(`https://fees-management-fe.vercel.app/update-payment/${uuid}`, { isPaid: !isPaid }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('admToken')}`
                 }
