@@ -10,7 +10,7 @@ function AdminLogin() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('http://localhost:8000/admin-login', { adminName, adminCode });
+      const response = await axios.post('https://fees-management-fe.vercel.app/admin-login', { adminName, adminCode });
       if (response.status === 200) {
         localStorage.setItem('admToken', response.data.token);
         setMessage('Login as admin is successful');
