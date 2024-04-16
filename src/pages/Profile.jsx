@@ -20,7 +20,7 @@ function Profile() {
           throw new Error("You are unauthorized to access this page...");
         }
 
-        const response = await axios.get('http://localhost:8000/profile', {
+        const response = await axios.get('https://fees-management-fe.vercel.app/profile', {
           headers: {
             Authorization: `Bearer ${token}`,
           }
