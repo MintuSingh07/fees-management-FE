@@ -23,7 +23,7 @@ const AddStudents = () => {
             if (!admToken) {
                 throw new Error("You can't access.");
             }
-            const response = await axios.post('http://localhost:8000/add-std', { fullName, phone: phoneNumber, stdClass }, {
+            const response = await axios.post('https://fees-management-fe.vercel.app/add-std', { fullName, phone: phoneNumber, stdClass }, {
                 headers: {
                     'Authorization': `Bearer ${admToken}`
                 }
