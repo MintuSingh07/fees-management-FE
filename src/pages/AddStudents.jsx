@@ -10,8 +10,8 @@ const AddStudents = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
+        const admToken = localStorage.getItem('admToken');
+        if (admToken) {
             setIsLoggedIn(true);
         }
     }, []);
@@ -19,13 +19,13 @@ const AddStudents = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const token = localStorage.getItem('token');
-            if (!token) {
+            const admToken = localStorage.getItem('admToken');
+            if (!admToken) {
                 throw new Error("You can't access.");
             }
             const response = await axios.post('http://localhost:8000/add-std', { fullName, phone: phoneNumber, stdClass }, {
                 headers: {
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${admToken}`
                 }
             });
             const { message, newStudent  } = response.data;

@@ -6,8 +6,8 @@ const StudentsList = () => {
     const [students, setStudents] = useState([]);
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) setIsLoggedIn(true);
+        const admToken = localStorage.getItem('admToken');
+        if (admToken) setIsLoggedIn(true);
     }, []);
 
     useEffect(() => {
@@ -15,7 +15,7 @@ const StudentsList = () => {
             try {
                 const response = await axios.get('http://localhost:8000/std-list', {
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        'Authorization': `Bearer ${localStorage.getItem('admToken')}`
                     }
                 });
                 setStudents(response.data);
@@ -33,7 +33,7 @@ const StudentsList = () => {
         try {
             const response = await axios.put(`http://localhost:8000/update-payment/${uuid}`, { isPaid: !isPaid }, {
                 headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    'Authorization': `Bearer ${localStorage.getItem('admToken')}`
                 }
             });
             // Update the local state with the updated student
