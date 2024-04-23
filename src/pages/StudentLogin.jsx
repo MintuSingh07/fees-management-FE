@@ -18,7 +18,7 @@ function StudentLogin() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/std-login', { uuid });
+      const response = await axios.post('https://fees-management-be.onrender.com/std-login', { uuid });
       const { message, token } = response.data;
       setMessage(message);
 
