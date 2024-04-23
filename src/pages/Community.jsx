@@ -5,7 +5,10 @@ const Community = () => {
   const [postDetails, setPostDetails] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [message, setMessage] = useState('');
-  const [selectedClass, setSelectedClass] = useState('');
+  const [selectedClass, setSelectedClass] = useState(() => {
+    const storedClass = localStorage.getItem('selectedClass');
+    return storedClass || '';
+  });
   const [filteredPosts, setFilteredPosts] = useState([]);
 
   useEffect(() => {
@@ -24,7 +27,7 @@ const Community = () => {
           }
         });
         setPostDetails(response.data.postDetails);
-        setFilteredPosts(response.data.postDetails); // Initially, set filtered posts to all posts
+        setFilteredPosts(response.data.postDetails);
       } catch (error) {
         console.log(`Error is ${error}`);
       }
@@ -33,12 +36,12 @@ const Community = () => {
   }, []);
 
   useEffect(() => {
-    // Filter postDetails based on selected class
     if (selectedClass === '') {
-      setFilteredPosts(postDetails); // If no class is selected, show all posts
+      setFilteredPosts(postDetails);
     } else {
       setFilteredPosts(postDetails.filter(post => post.forClass === selectedClass));
     }
+    localStorage.setItem('selectedClass', selectedClass);
   }, [selectedClass, postDetails]);
 
   const handleClassChange = (e) => {
