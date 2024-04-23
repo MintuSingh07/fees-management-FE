@@ -8,6 +8,8 @@ import Profile from './pages/Profile';
 import AddStudents from './pages/AddStudents';
 import StudentsList from './pages/StudentsList';
 import AdminLogin from './pages/AdminLogin';
+import ImageUpload from './pages/ImageUpload';
+import Community from './pages/Community';
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
       <Route path='/add-std' element={<AddStudents />} />
       <Route path='/std-list' element={<StudentsList />} />
       <Route path='/admin-login' element={<AdminLogin />} />
+      <Route path='/img-upload' element={<ImageUpload />} />
+      <Route path='/community' element={<Community />} />
     </Routes>
   )
 }
