@@ -9,7 +9,9 @@ const Community = () => {
     const storedClass = localStorage.getItem('selectedClass');
     return storedClass || '';
   });
-  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [classOptions, setClassOptions] = useState([]);
+  const [modelImage, setModelImage] = useState('');
+  const [zoomedImage, setZoomedImage] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +29,10 @@ const Community = () => {
           }
         });
         setPostDetails(response.data.postDetails);
-        setFilteredPosts(response.data.postDetails);
+
+        const uniqueClasses = [...new Set(response.data.postDetails.map(post => post.forClass))];
+        setClassOptions(uniqueClasses);
+
       } catch (error) {
         console.log(`Error is ${error}`);
       }
@@ -36,17 +41,22 @@ const Community = () => {
   }, []);
 
   useEffect(() => {
-    if (selectedClass === '') {
-      setFilteredPosts(postDetails);
-    } else {
-      setFilteredPosts(postDetails.filter(post => post.forClass === selectedClass));
-    }
     localStorage.setItem('selectedClass', selectedClass);
-  }, [selectedClass, postDetails]);
+  }, [selectedClass]);
 
   const handleClassChange = (e) => {
     setSelectedClass(e.target.value);
   };
+
+  const handelZoomIn = (imageUrl) => {
+    setModelImage(imageUrl);
+    setZoomedImage(true)
+  }
+
+  const handelZoomOut = () => {
+    setModelImage('');
+    setZoomedImage(false);
+  }
 
   return (
     <div>
@@ -54,24 +64,39 @@ const Community = () => {
         <div>
           <select value={selectedClass} onChange={handleClassChange}>
             <option value="">Select a class</option>
-            {postDetails.map((post, index) => (
-              <option key={index} value={post.forClass}>Class {post.forClass}</option>
+            {classOptions.map((classOption, index) => (
+              <option key={index} value={classOption}>Class {classOption}</option>
             ))}
           </select>
-          {filteredPosts.length === 0 ? "No images" :
+          {postDetails.length === 0 ? "No images" :
             <div>
-              {filteredPosts.map((post, index) => (
-                <div key={index}>
-                  <div>
-                    {post.imageUrls.map((imageUrl, i) => (
-                      <img key={i} src={`http://localhost:8000/${imageUrl}`} alt={`Image ${i}`} height={100} width={100} />
-                    ))}
+              {postDetails
+                .filter(post => post.forClass === selectedClass)
+                .map((post, index) => (
+                  <div key={index}>
+                    <div>
+                      {post.imageUrls.map((imageUrl, i) => (
+                        <img
+                          key={i}
+                          src={`http://localhost:8000/${imageUrl}`}
+                          alt={`Image ${i}`}
+                          height={100}
+                          width={100}
+                          onClick={()=> handelZoomIn(`http://localhost:8000/${imageUrl}`)}
+                        />
+                      ))}
+                    </div>
+                    <p>{post.desc}</p>
                   </div>
-                  <p>{post.desc}</p>
-                </div>
-              ))}
+                ))}
             </div>
           }
+          {zoomedImage && (
+            <div>
+              <button onClick={()=> handelZoomOut()}>Close</button>
+              <img src={modelImage} alt='image' height= {500} width={500}/>
+            </div>
+          )}
         </div>
       ) : (
         <p>'First Login Please...'</p>

@@ -51,31 +51,37 @@ const StudentsList = () => {
 
     return (
         <div>
-            <h2>Students List</h2>
-            {students.length > 0 ? (
-                <ul>
-                    {students.map((student, index) => (
-                        <li key={index}>
-                            <p>Full Name: {student.fullName}</p>
-                            <p>Class: {student.stdClass}</p>
-                            <p>Phone Number: {student.phone}</p>
-                            {student.isPaid ? (
-                                <p style={{ color: 'green', fontWeight: 600 }}>Paid</p>
-                            ) : (
-                                <label>
-                                    Paid: 
-                                    <input
-                                        type="checkbox"
-                                        checked={student.isPaid}
-                                        onChange={() => handleCheckboxChange(student.uuid, student.isPaid)}
-                                    />
-                                </label>
-                            )}
-                        </li>
-                    ))}
-                </ul>
+            {isLoggedIn ? (
+                <div>
+                    <h2>Students List</h2>
+                    {students.length > 0 ? (
+                        <ul>
+                            {students.map((student, index) => (
+                                <li key={index}>
+                                    <p>Full Name: {student.fullName}</p>
+                                    <p>Class: {student.stdClass}</p>
+                                    <p>Phone Number: {student.phone}</p>
+                                    {student.isPaid ? (
+                                        <p style={{ color: 'green', fontWeight: 600 }}>Paid</p>
+                                    ) : (
+                                        <label>
+                                            Paid:
+                                            <input
+                                                type="checkbox"
+                                                checked={student.isPaid}
+                                                onChange={() => handleCheckboxChange(student.uuid, student.isPaid)}
+                                            />
+                                        </label>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No students found.</p>
+                    )}
+                </div>
             ) : (
-                <p>No students found.</p>
+                <p>Please Login First...</p>
             )}
         </div>
     );
