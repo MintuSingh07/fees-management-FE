@@ -23,7 +23,7 @@ const Community = () => {
         }
         setIsLoggedIn(true);
 
-        const response = await axios.get('http://localhost:8000/community', {
+        const response = await axios.get('https://fees-management-be.onrender.com/community', {
           headers: {
             Authorization: `Bearer ${token}`,
           }
@@ -78,11 +78,11 @@ const Community = () => {
                       {post.imageUrls.map((imageUrl, i) => (
                         <img
                           key={i}
-                          src={`http://localhost:8000/${imageUrl}`}
+                          src={`https://fees-management-be.onrender.com/${imageUrl}`}
                           alt={`Image ${i}`}
                           height={100}
                           width={100}
-                          onClick={()=> handelZoomIn(`http://localhost:8000/${imageUrl}`)}
+                          onClick={()=> handelZoomIn(`https://fees-management-be.onrender.com/${imageUrl}`)}
                         />
                       ))}
                     </div>
