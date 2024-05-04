@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import "../styles/studentsList.css"
 
 const StudentsList = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [students, setStudents] = useState([]);
+    const [date, setDate] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const admToken = localStorage.getItem('admToken');
@@ -13,14 +16,14 @@ const StudentsList = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('https://fees-management-be.onrender.com/std-list', {
+                const response = await axios.get('http://localhost:8000/std-list', {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('admToken')}`
                     }
                 });
                 setStudents(response.data);
             } catch (error) {
-                console.error("Error:", error.response.data.message);
+                console.error("Error fetching student data:", error.response ? error.response.data.message : error.message);
             }
         };
 
@@ -29,9 +32,17 @@ const StudentsList = () => {
         }
     }, [isLoggedIn]);
 
+    useEffect(() => {
+        const currentDate = new Date();
+        const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
+        const currentYear = currentDate.toLocaleString('default', {year:'numeric'});
+        const monthAndYear = currentMonth + ", " + currentYear;
+        setDate(monthAndYear);
+    }, []);
+
     const handleCheckboxChange = async (uuid, isPaid) => {
         try {
-            const response = await axios.put(`https://fees-management-be.onrender.com/update-payment/${uuid}`, { isPaid: !isPaid }, {
+            const response = await axios.put(`http://localhost:8000/update-payment/${uuid}`, { isPaid: !isPaid }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('admToken')}`
                 }
@@ -45,21 +56,37 @@ const StudentsList = () => {
             }));
             console.log(response.data.message);
         } catch (error) {
-            console.error("Error:", error.response.data.message);
+            console.error("Error updating payment status:", error.response ? error.response.data.message : error.message);
         }
     };
+
+    const handleSearch = (e) => {
+        setSearchTerm(e.target.value);
+    };
+
+    const filteredStudents = searchTerm.length === 0 ? students : students.filter(student =>
+        student.fullName.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <div>
             {isLoggedIn ? (
                 <div>
-                    <h2>Students List</h2>
-                    {students.length > 0 ? (
+                    <h2>{date}</h2>
+                    <input
+                        type="text"
+                        placeholder="Search Name"
+                        value={searchTerm}
+                        onChange={handleSearch}
+                        id='searchBar'
+                    />
+                    {filteredStudents.length > 0 ? (
                         <ul>
-                            {students.map((student, index) => (
-                                <li key={index}>
-                                    <p>Full Name: {student.fullName}</p>
+                            {filteredStudents.map(student => (
+                                <li key={student.uuid}>
+                                    <h3>{student.fullName}</h3>
                                     <p>Class: {student.stdClass}</p>
+                                    <p>UUID: {student.uuid}</p>
                                     <p>Phone Number: {student.phone}</p>
                                     {student.isPaid ? (
                                         <p style={{ color: 'green', fontWeight: 600 }}>Paid</p>

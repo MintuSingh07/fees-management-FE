@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import "../styles/admintLogin.css"
 
 function AdminLogin() {
   const [adminName, setAdminName] = useState('');
@@ -23,20 +24,43 @@ function AdminLogin() {
     }
   };
 
+  const handelMove = () => {
+    const pElement = document.querySelector('.inputField>p');
+    pElement.style.transform = 'translate(-15px, -28px)';
+    pElement.style.scale = .8;
+    pElement.style.color = '#000'
+
+    document.body.addEventListener('click', handleOutsideClick);
+  };
+
+  const handleOutsideClick = (event) => {
+    const pElement = document.querySelector('.inputField>p');
+    const inputElement = document.querySelector('.inputField>input');
+
+    if (!inputElement.contains(event.target)) {
+      pElement.style.transform = 'translateY(0)';
+      pElement.style.scale = 1;
+      pElement.style.color = '#727272';
+      document.body.removeEventListener('click', handleOutsideClick);
+    }
+  };
+
+
   return (
-    <div>
-      <h2>Admin Login</h2>
-      <div>{message}</div>
-      <div>
-        <label htmlFor="adminName">Admin Name:</label>
-        <input type="text" id="adminName" value={adminName} onChange={e => setAdminName(e.target.value)} />
+    <center>
+      <div id="header">
+        <div id="homeImg"></div>
+        <h2>Shibabrata Bhaduri English Tution</h2>
       </div>
-      <div>
-        <label htmlFor="adminCode">Admin Code:</label>
+      <div>{message}</div>
+      <div id='inputField'>
+        <p>Enter UUID</p>
+        <input type="text" id="adminName" value={adminName} onClick={()=> handelMove()} onChange={e => setAdminName(e.target.value)} />
+        <p>Enter UUID</p>
         <input type="password" id="adminCode" value={adminCode} onChange={e => setAdminCode(e.target.value)} />
       </div>
       <button onClick={handleLogin}>Login</button>
-    </div>
+    </center>
   );
 }
 

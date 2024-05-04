@@ -8,6 +8,8 @@ const AddStudents = () => {
     const [message, setMessage] = useState('');
     const [UUID, SetUuid] = useState('');
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    
+
 
     useEffect(() => {
         const admToken = localStorage.getItem('admToken');
@@ -23,7 +25,7 @@ const AddStudents = () => {
             if (!admToken) {
                 throw new Error("You can't access.");
             }
-            const response = await axios.post('https://fees-management-be.onrender.com/add-std', { fullName, phone: phoneNumber, stdClass }, {
+            const response = await axios.post('http://localhost:8000/add-std', { fullName, phone: phoneNumber, stdClass }, {
                 headers: {
                     'Authorization': `Bearer ${admToken}`
                 }
@@ -43,7 +45,6 @@ const AddStudents = () => {
             {isLoggedIn ? (
                 <div>
                     <h2>Add Student</h2>
-
                     <form onSubmit={handleSubmit}>
                         <div>
                             <label>Full Name:</label>

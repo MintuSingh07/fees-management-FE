@@ -54,8 +54,9 @@ function Profile() {
   return (
     <div>
       <h2>Student Profile</h2>
+      <h3>{student.fullName}</h3>
+      <p>Phone No: {student.phone}</p>
       <p>UUID: {student.uuid}</p>
-      <p>Full Name: {student.fullName}</p>
       <p>Class: {student.stdClass}</p>
       {
         (isLoggedIn) && <button onClick={handelLogOut}>Logout</button>

@@ -1,0 +1,67 @@
+#homeImg{
+    height:10vh;
+    width:10vh;
+    border-radius: 50%;
+    background-color: #5a5a5a;
+}
+.inputField{
+    height: 6vh;
+  width: 84vw;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.inputField>p{
+    position: absolute;
+    font-weight: 500;
+    color: #727272;
+    margin-left: 1rem;
+    background-color: #ffffff;
+    text-align: center;
+    width: 28%;
+    transition: all .2s linear;
+}
+.inputField>input{
+    height: 100%;
+    width: 100%;
+    padding: 1rem;
+    outline: 0;
+    border: 1.5px solid #0085FF;
+    border-radius: .3rem;
+    font-size: medium;
+}
+#header{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+#header>h2{
+    text-align: center;
+    width: 80%;
+    font-size: 1rem;
+    margin-top: .5rem;
+    font-weight: 600;
+}
+#StdLoginContainer{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20rem;
+}
+form>button{
+    padding: .9rem 3rem;
+    color: white;
+    background-color: #F87171;
+    border: 0;
+    outline: 0;
+    border-radius: .3rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+#link{
+    color: black;
+    text-decoration: none;
+}
