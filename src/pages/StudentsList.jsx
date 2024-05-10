@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import "../styles/studentsList.css"
+import "../styles/studentsList.css";
+import { MdPersonAddAlt1 } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 const StudentsList = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -35,7 +37,7 @@ const StudentsList = () => {
     useEffect(() => {
         const currentDate = new Date();
         const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
-        const currentYear = currentDate.toLocaleString('default', {year:'numeric'});
+        const currentYear = currentDate.toLocaleString('default', { year: 'numeric' });
         const monthAndYear = currentMonth + ", " + currentYear;
         setDate(monthAndYear);
     }, []);
@@ -69,10 +71,15 @@ const StudentsList = () => {
     );
 
     return (
-        <div>
+        <div style={{ padding: "2rem" }}>
             {isLoggedIn ? (
                 <div>
-                    <h2>{date}</h2>
+                    <div id="topHead">
+                        <h2>{date}</h2>
+                        <Link to="/add-std" id="addStd">
+                            <MdPersonAddAlt1 style={{fontSize: "1.5rem", color: "black"}}/>
+                        </Link>
+                    </div>
                     <input
                         type="text"
                         placeholder="Search Name"
