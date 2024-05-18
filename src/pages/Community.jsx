@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { host } from '../main';
 
 const Community = () => {
   const [postDetails, setPostDetails] = useState([]);
@@ -23,7 +24,7 @@ const Community = () => {
         }
         setIsLoggedIn(true);
 
-        const response = await axios.get('https://fees-management-be.onrender.com/community', {
+        const response = await axios.get(host + '/community', {
           headers: {
             Authorization: `Bearer ${token}`,
           }
@@ -82,7 +83,7 @@ const Community = () => {
                           alt={`Image ${i}`}
                           height={100}
                           width={100}
-                          onClick={()=> handelZoomIn(`https://fees-management-be.onrender.com/${imageUrl}`)}
+                          onClick={() => handelZoomIn(`https://fees-management-be.onrender.com/${imageUrl}`)}
                         />
                       ))}
                     </div>
@@ -93,8 +94,8 @@ const Community = () => {
           }
           {zoomedImage && (
             <div>
-              <button onClick={()=> handelZoomOut()}>Close</button>
-              <img src={modelImage} alt='image' height= {500} width={500}/>
+              <button onClick={() => handelZoomOut()}>Close</button>
+              <img src={modelImage} alt='image' height={500} width={500} />
             </div>
           )}
         </div>

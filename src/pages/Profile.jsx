@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { host } from '../main';
 
 
 function Profile() {
@@ -20,7 +21,7 @@ function Profile() {
           throw new Error("You are unauthorized to access this page...");
         }
 
-        const response = await axios.get('https://fees-management-be.onrender.com/profile', {
+        const response = await axios.get(host + '/profile', {
           headers: {
             Authorization: `Bearer ${token}`,
           }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'
 import "../styles/admintLogin.css"
+import { host } from '../main';
 
 function AdminLogin() {
   const [adminName, setAdminName] = useState('');
@@ -11,7 +12,7 @@ function AdminLogin() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post('https://fees-management-be.onrender.com/admin-login', { adminName, adminCode });
+      const response = await axios.post( host + '/admin-login', { adminName, adminCode });
       if (response.status === 200) {
         localStorage.setItem('admToken', response.data.token);
         setMessage('Login as admin is successful');

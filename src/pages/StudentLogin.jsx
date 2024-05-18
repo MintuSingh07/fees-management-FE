@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import "../styles/studentLogin.css"
+import { host } from '../main';
 
 function StudentLogin() {
   const [uuid, setUuid] = useState('');
@@ -19,7 +20,7 @@ function StudentLogin() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('https://fees-management-be.onrender.com/std-login', { uuid });
+      const response = await axios.post(host + '/std-login', { uuid });
       const { message, token } = response.data;
       setMessage(message);
 

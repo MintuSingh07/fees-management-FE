@@ -3,6 +3,7 @@ import axios from 'axios';
 import "../styles/studentsList.css";
 import { MdPersonAddAlt1 } from "react-icons/md";
 import { Link } from 'react-router-dom';
+import { host } from "../main"
 
 const StudentsList = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -28,7 +29,7 @@ const StudentsList = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('https://fees-management-be.onrender.com/std-list', {
+                const response = await axios.get(host + '/std-list', {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('admToken') || localStorage.getItem('token')}`
                     }
@@ -56,7 +57,7 @@ const StudentsList = () => {
     //* Payment Handler
     const handleCheckboxChange = async (uuid, isPaid) => {
         try {
-            const response = await axios.put(`http://localhost:8000/update-payment/${uuid}`, { isPaid: !isPaid }, {
+            const response = await axios.put(host + `/update-payment/${uuid}`, { isPaid: !isPaid }, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('admToken')}`
                 }
@@ -93,7 +94,7 @@ const StudentsList = () => {
 
     const handleStudentDelete = async () => {
         try {
-            const response = await axios.delete(`http://localhost:8000/remove/${confirmDelete.studentId}`, {
+            const response = await axios.delete(host + `/remove/${confirmDelete.studentId}`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('admToken')}`
                 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { host } from '../main';
 
 const ImageUpload = () => {
     const [desc, setDesc] = useState('');
@@ -44,7 +45,7 @@ const ImageUpload = () => {
                 formData.append('images', image);
             });
 
-            const response = await axios.post('https://fees-management-be.onrender.com/upload', formData, {
+            const response = await axios.post(host + '/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'Authorization': `Bearer ${token}`

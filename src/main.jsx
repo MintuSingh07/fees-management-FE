@@ -4,8 +4,11 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 
+const host = "http://localhost:8000"
+
 ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <App />
-    </BrowserRouter>,
+    </BrowserRouter>
 )
+export {host};

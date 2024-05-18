@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {host} from "../main"
 
 const AddStudents = () => {
     const [fullName, setFullName] = useState('');
@@ -25,7 +26,7 @@ const AddStudents = () => {
             if (!admToken) {
                 throw new Error("You can't access.");
             }
-            const response = await axios.post('https://fees-management-be.onrender.com/add-std', { fullName, phone: phoneNumber, stdClass }, {
+            const response = await axios.post( host + '/add-std', { fullName, phone: phoneNumber, stdClass }, {
                 headers: {
                     'Authorization': `Bearer ${admToken}`
                 }
