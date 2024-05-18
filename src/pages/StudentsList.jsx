@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 const StudentsList = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const [students, setStudents] = useState([]);
     const [date, setDate] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
@@ -14,7 +15,13 @@ const StudentsList = () => {
     //* Get data from local storage [ADMIN or NOT]
     useEffect(() => {
         const admToken = localStorage.getItem('admToken');
-        if (admToken) setIsLoggedIn(true);
+        const token = localStorage.getItem('token');
+        if (admToken) {
+            setIsLoggedIn(true);
+            setIsAdmin(true);
+        } else if (token) {
+            setIsLoggedIn(true);
+        }
     }, []);
 
     //* Get student data
@@ -23,7 +30,7 @@ const StudentsList = () => {
             try {
                 const response = await axios.get('https://fees-management-be.onrender.com/std-list', {
                     headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('admToken')}`
+                        'Authorization': `Bearer ${localStorage.getItem('admToken') || localStorage.getItem('token')}`
                     }
                 });
                 setStudents(response.data);
@@ -42,7 +49,7 @@ const StudentsList = () => {
         const currentDate = new Date();
         const currentMonth = currentDate.toLocaleString('default', { month: 'long' });
         const currentYear = currentDate.toLocaleString('default', { year: 'numeric' });
-        const monthAndYear = currentMonth + ", " + currentYear;
+        const monthAndYear = `${currentMonth}, ${currentYear}`;
         setDate(monthAndYear);
     }, []);
 
@@ -106,9 +113,11 @@ const StudentsList = () => {
                 <div>
                     <div id="topHead">
                         <h2>{date}</h2>
-                        <Link to="/add-std" id="addStd">
-                            <MdPersonAddAlt1 style={{ fontSize: "1.5rem", color: "black" }} />
-                        </Link>
+                        {isAdmin && (
+                            <Link to="/add-std" id="addStd">
+                                <MdPersonAddAlt1 style={{ fontSize: "1.5rem", color: "black" }} />
+                            </Link>
+                        )}
                     </div>
                     <input
                         type="text"
@@ -119,11 +128,10 @@ const StudentsList = () => {
                     />
                     {confirmDelete.isOpen && (
                         <div id='dialogue-box'>
-
-                            <div>
+                            <div style={{ display: "flex", alignItems: "center", flexDirection: 'column' }}>
                                 <p id='delete-message'>{`Do you want to remove ${confirmDelete.studentName}? Click "OK" to confirm !!!`}</p>
-                                <button onClick={handleStudentDelete}>OK</button>
-                                <button onClick={handleCancelDelete}>Cancel</button>
+                                <button style={{ padding: ".5rem 5rem", marginTop: "1.5rem" }} onClick={handleStudentDelete}>OK</button>
+                                <button style={{ padding: ".5rem 4.25rem", marginTop: ".5rem" }} onClick={handleCancelDelete}>Cancel</button>
                             </div>
                         </div>
                     )}
@@ -135,18 +143,31 @@ const StudentsList = () => {
                                     <p>Class: {student.stdClass}</p>
                                     <p>UUID: {student.uuid}</p>
                                     <p>Phone Number: {student.phone}</p>
-                                    <button onClick={() => handleConfirmDelete(student.uuid, student.fullName)}>Delete</button>
-                                    {student.isPaid ? (
-                                        <p style={{ color: 'green', fontWeight: 600 }}>Paid</p>
+                                    {isAdmin ? (
+                                        <>
+                                            {student.isPaid ? (
+                                                <>
+                                                    <button onClick={() => handleConfirmDelete(student.uuid, student.fullName)}>Delete</button>
+                                                    <p style={{ color: 'green', fontWeight: 600 }}>Paid</p>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <button onClick={() => handleConfirmDelete(student.uuid, student.fullName)}>Delete</button>
+                                                    <label>
+                                                        Paid:
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={student.isPaid}
+                                                            onChange={() => handleCheckboxChange(student.uuid, student.isPaid)}
+                                                        />
+                                                    </label>
+                                                </>
+                                            )}
+                                        </>
                                     ) : (
-                                        <label>
-                                            Paid:
-                                            <input
-                                                type="checkbox"
-                                                checked={student.isPaid}
-                                                onChange={() => handleCheckboxChange(student.uuid, student.isPaid)}
-                                            />
-                                        </label>
+                                        <p style={{ color: student.isPaid ? 'green' : 'red', fontWeight: 600 }}>
+                                            {student.isPaid ? 'Paid' : 'Unpaid'}
+                                        </p>
                                     )}
                                 </li>
                             ))}
