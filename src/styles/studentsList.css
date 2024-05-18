@@ -1,20 +1,23 @@
-ul>li{
+ul>li {
     list-style: none;
     margin: 1rem 0;
     line-height: 1.4rem;
 }
-#searchBar{
+
+#searchBar {
     width: 100%;
     padding: .7rem;
     font-size: medium;
     margin: 2rem 0 .7rem 0;
 }
-#topHead{
+
+#topHead {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-#addStd{
+
+#addStd {
     height: 5vh;
     width: 5vh;
     background-color: rgb(202, 202, 202);
@@ -23,4 +26,18 @@ ul>li{
     align-items: center;
     justify-content: center;
     cursor: pointer;
+}
+
+#dialogue-box {
+    height: 22vh;
+    width: 84vw;
+    background-color: #ececec;
+    border-radius: .5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-box-shadow: -7px 7px 33px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: -7px 7px 33px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: -7px 7px 33px 0px rgba(0, 0, 0, 0.75);
 }
